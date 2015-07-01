@@ -41,6 +41,6 @@ var Auth = require('../../modules/auth');
 
 ## Options
 
-**`base`** (required) module resolve root
-**`exclude`** (optional) array of modules to not rewrite
-**`dry`** (optional) dont write files
+- **`base`** (required) module resolve root
+- **`exclude`** (optional) array of modules to not rewrite
+- **`dry`** (optional) dont write files
