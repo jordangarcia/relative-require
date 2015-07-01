@@ -1,6 +1,6 @@
 {
   "name": "relative-require",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Refactor requires to be relative",
   "main": "index.js",
   "scripts": {

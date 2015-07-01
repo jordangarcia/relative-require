@@ -25,7 +25,7 @@ module.exports = function toRelative(opts) {
           return
         }
         var findRegex = /require\('([^\.^\']+)'\)/g;
-        var newContent = content.replace(findRegex, function(whole, match, ind) {
+        entry.newContent = content.replace(findRegex, function(whole, match, ind) {
           if (exclude.indexOf(match) === -1) {
             var requireAbsFilepath = path.join(base, match + '.js');
             var requireAbsFilepathIndex = path.join(base, match, './index.js');
@@ -84,7 +84,10 @@ module.exports = function toRelative(opts) {
           })
         });
       } else {
-
+        changes.forEach(function(change) {
+          console.log('writing file: ' + change.filepath, change.newContent)
+          //fs.writeFile(change.filepath, change.newContent)
+        });
       }
     })
   })
