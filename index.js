@@ -4,7 +4,7 @@ var path = require('path');
 var glob = require('glob');
 var sprintf = require('util').format
 
-function toRelative(opts) {
+module.exports = function toRelative(opts) {
   var moduleName = opts.moduleName;
   var base = opts.base;
   var exclude = opts.exclude;
@@ -19,7 +19,11 @@ function toRelative(opts) {
         changes: []
       }
 
-      fs.readFile(absFilepath, { encoding: 'utf8'}, function(err, content) { 
+      fs.readFile(absFilepath, { encoding: 'utf8'}, function(err, content) {
+        if (err) {
+          console.error(err)
+          return
+        }
         var findRegex = /require\('([^\.^\']+)'\)/g;
         var newContent = content.replace(findRegex, function(whole, match, ind) {
           if (exclude.indexOf(match) === -1) {
@@ -35,7 +39,17 @@ function toRelative(opts) {
               newRequire = path.join(diff, match)
             }
 
-            newRequire = newRequire.replace('..\/', '').replace(/\.js$/, '');
+            if (/^\.\.\/\w/.test(newRequire)) {
+              newRequire = newRequire.replace('../', './');
+            } else {
+              newRequire = newRequire.replace('../', '');
+            }
+
+            newRequire = newRequire.replace(/\.js$/, '');
+            if (/\/index$/.test(newRequire)) {
+              newRequire = newRequire.replace(/\/index$/, '');
+
+            }
             changed = true;
 
             var replaced = "require('" + newRequire + "')";
@@ -73,20 +87,6 @@ function toRelative(opts) {
 
       }
     })
+  })
 }
-
-var base = path.join(__dirname, './app')
-
-toRelative({
-  base: base,
-  exclude: [
-    'nuclear-js',
-    'lodash',
-    'es6-promise',
-    'immutable',
-    'jquery',
-    'sprintf',
-  ],
-  dry: true,
-});
 
