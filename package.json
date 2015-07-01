@@ -1,0 +1,15 @@
+{
+  "name": "relative-require",
+  "version": "0.1.0",
+  "description": "Refactor requires to be relative",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jordan Garcia",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^1.3.0",
+    "glob": "^5.0.12"
+  }
+}
